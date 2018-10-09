@@ -1,21 +1,35 @@
 import React,{Component} from 'react'
 import './index.scss'
-import jsonp from 'jsonp'
+import axios from 'axios'
+import utils from '../../utils'
 
 export default class Header extends Component{
+    state = {
+        weather: '',
+        time: ''
+    }
+
     getWeather = () => {
-        let area = encodeURIComponent('北京')
-        jsonp(`http://api.map.baidu.com/telematics/v3/weather?location=${area}&output=json&ak=wQlEyR29jvlIEWrdKxd5inASjYugOCam`, {
-            param: 'callback'
-        },
-            (res) => {
-                console.log(res);
+        axios.get(`http://t.weather.sojson.com/api/weather/city/101010100`).then(res => {
+            let weatherData = res.data.data.forecast[0]
+            let weatherStr = `${weatherData.low} ~ ${weatherData.high} ${weatherData.fx} ${weatherData.fl}`
+            this.setState({weather: weatherStr})
+})
+    }
+
+    getDate() {
+        setInterval(() => {
+            let unixDate = new Date().getTime()
+            let time = utils.formatDate(unixDate)
+            this.setState({
+                time
             })
+        }, 1000)
     }
 
     componentWillMount() {
-        console.log(1)
         this.getWeather()
+        this.getDate()
     }
 
     render() {
@@ -29,16 +43,16 @@ export default class Header extends Component{
                         欢迎， <span className="username">张怡宁</span>
                     </div>
                 </div>
-                <div className='header-detail'>
+                <div className='header-detail clearfix'>
                     <div className="breadcrumb-title fll">
                         首页
                     </div>
-                    <div className="weather">
-                        <div className="date">
-                            2018-01-09 06:02:18
+                    <div className="weather flr clearfix">
+                        <div className="date fll">
+                            {this.state.time}
                         </div>
-                        <div className="weather-detail">
-
+                        <div className="weather-detail fll">
+                            {this.state.weather}
                         </div>
                     </div>
                 </div>

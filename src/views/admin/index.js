@@ -1,15 +1,15 @@
 import React, { Component } from 'react'
+import './index.scss'
 import {Row, Col} from 'antd'
 import NavLeft from '../../components/navLeft'
 import Header from '../../components/header'
+import Footer from '../../components/footer'
 
 export default class Admin extends Component {
 
-    menuData = [
-        {
-            path: '/home'
-        }
-    ]
+    componentDidMount() {
+        console.log(this.props)
+    }
 
     render() {
         return (
@@ -20,14 +20,14 @@ export default class Admin extends Component {
                     </Col>
                     <Col span={20}>
                         <Header/>
-                        <div className="content">
-                            {this.props.children}
+                        <div className="content-wrap">
+                            <div className="content">
+                                {this.props.children}
+                            </div>
                         </div>
+                        <Footer />
                     </Col>
                 </Row>
-
-
-
             </div>
         )
     }

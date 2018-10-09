@@ -7,10 +7,49 @@
     div {
       margin-right: 20px;
     }
-
     .username {
       color: #f9c700;
     }
+
+    .logout {
+      color: #409eff;
+    }
   }
 
+  .header-detail {
+    padding:  0 20px;
+    line-height: 40px;
+    height: 40px;
+
+    .breadcrumb-title {
+      width: 12.5%;
+      text-align: center;
+      position: relative;
+      font-size: 18px;
+
+      &:after{
+        content: '';
+        display: block;
+        position: absolute;
+        bottom: -24px;
+        left: 50%;
+        transform: translateX(-50%);
+        border: 12px solid transparent;
+        border-top: 12px solid #fff;
+        width: 0;
+        height: 0;
+      }
+    }
+
+    .date {
+      margin-right: 20px;
+      font-size: 14px;
+      font-weight: 400;
+    }
+
+    .weather {
+      font-size: 14px;
+      font-weight: 700;
+    }
+  }
 }
