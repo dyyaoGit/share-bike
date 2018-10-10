@@ -1,0 +1,37 @@
+.map-wrap {
+  height: 400px;
+}
+
+.detail-info {
+  color: #898989;
+  border-bottom: 1px solid #d7d7d7;
+  width: 80%;
+  margin: 40px auto 0;
+  padding-bottom: 40px;
+
+  ul {
+    margin-left: 100px;
+  }
+
+  li {
+    margin-bottom: 30px;
+    list-style: none;
+  }
+
+  .info-left {
+    margin-right: 20px;
+  }
+
+  .info-right {
+    color: #333;
+  }
+
+  .info-wrap {
+    margin-bottom: 0;
+  }
+
+  .item-title {
+    margin-bottom: 40px;
+    font-size: 20px;
+  }
+}

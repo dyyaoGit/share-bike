@@ -18,6 +18,14 @@ export default class NavLeft extends Component{
                     <MenuItem key='/admin/order'>
                         <Link to='/admin/order'>订单管理</Link>
                     </MenuItem>
+                    <SubMenu title='图例'>
+                        <MenuItem key='/admin/echarts/bar'>
+                            <Link to='/admin/echarts/bar'>饼状图</Link>
+                        </MenuItem>
+                        <MenuItem key='/admin/echarts/pie'>
+                            <Link to='/admin/echarts/pie'>饼状图</Link>
+                        </MenuItem>
+                    </SubMenu>
                 </Menu>
             </div>
         )

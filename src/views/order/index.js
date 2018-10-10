@@ -1,6 +1,7 @@
 import React,{Component} from 'react';
-import {Card, Form, Input, Button, Select, DatePicker, Table} from 'antd'
+import {Card, Form, Input, Button, Select, DatePicker, Table, Modal, message} from 'antd'
 import axios from '../../axios'
+import './index.scss'
 const { RangePicker } = DatePicker;
 const FormItem = Form.Item
 const Option = Select.Option
@@ -115,7 +116,8 @@ class Order extends Component {
             tip: '数据正在拼命加载中',
             size: 'large'
         },
-        selectedRowKeys: []
+        selectedRowKeys: [],
+        endItem: {}
     }
 
     // 表单提交
@@ -169,19 +171,55 @@ class Order extends Component {
         this.getTable()
     }
 
-    getMsg = (selectedKeys, selectedRows) => {
-        console.log(selectedKeys)
-        console.log(selectedRows)
-    }
-
-    rowSelected(data) {
+    rowSelected(index, data) {
         this.setState({
-            selectedRowKeys: data
+            selectedRowKeys: index,
+            selectedItem: data
         })
     }
 
-    showDetail() {
+    showDetail =() => {
+        let {selectedItem} = this.state
+        if(selectedItem){
+            const id = this.state.selectedItem.id
+            window.open(`/#/common/order/detail/${id}`, '_blank')
+        } else {
+            Modal.info({
+                title: '提示',
+                content: '请选择一个订单'
+            })
+        }
+    }
 
+    handleDone = () => {
+        if(!this.state.selectedItem) {
+            Modal.info({
+                title: '信息',
+                content: '请选择一条订单结束',
+                onOk(){},
+            })
+        } else {
+            axios.get('/order/ebike_info').then(res => {
+                if(res.code == 0){
+                    this.setState({
+                        endItem: res.result,
+                        visible: true
+                    })
+                }
+            })
+        }
+    }
+
+    handleEnd = () => {
+        axios.get('/order/finish_order', this.state.endItem.id).then(res => {
+            if(res.code == 0){
+                this.setState({
+                    visible: false
+                })
+                this.getTable()
+                message.success('成功结束订单')
+            }
+        })
     }
 
     render() {
@@ -250,14 +288,12 @@ class Order extends Component {
             type: 'radio',
             selectedRowKeys: this.state.selectedRowKeys,
             onChange: (selectedRowKeys, selectedRow) => {
-                console.log(selectedRowKeys, selectedRow)
                 this.setState({
-                    selectedRowKeys: selectedRowKeys
+                    selectedRowKeys: selectedRowKeys,
+                    selectedItem: selectedRow
                 })
             }
         }
-
-
 
         return (
             <div className="order-wrap">
@@ -266,9 +302,9 @@ class Order extends Component {
                 </Card>
                 <Card className='btn-wrap' style={{marginTop: -1}}>
                     <Button type='primary' onClick={this.showDetail}>订单详情</Button>
-                    <Button type='primary'>结束订单</Button>
+                    <Button type='primary' onClick={this.handleDone}>结束订单</Button>
                 </Card>
-                <Card>
+                <Card style={{marginTop: -1}}>
                     <Table
                         bordered
                         loading={this.state.loading}
@@ -278,13 +314,39 @@ class Order extends Component {
                         onRow={(row, index) => {
                             return {
                                 onClick: () => {
-                                    this.rowSelected([index])
+                                    this.rowSelected([index], row)
                                 }
                             }
                         }}
                         pagination={this.state.pagination}
                     ></Table>
                 </Card>
+                <Modal
+                    title='结束订单'
+                    visible={this.state.visible}
+                    onOk={this.handleEnd}
+                    onCancel={() => this.setState({visible: false})}
+                >
+                    <ul className='ul-data'>
+                        <li>
+                            <span className='car-num li-title'>车辆编号：</span>
+                            {this.state.endItem.bike_sn}
+                        </li>
+                        <li>
+                            <span className='car-num li-title'>剩余电量：</span>
+                            {this.state.endItem.battery}
+                        </li>
+                        <li>
+                            <span className='car-num li-title'>行程开始时间：</span>
+                            {this.state.endItem.start_time}
+                        </li>
+                        <li>
+                            <span className='car-num li-title'>当前位置：</span>
+                            {this.state.endItem.location}
+                        </li>
+
+                    </ul>
+                </Modal>
             </div>
         )
 
