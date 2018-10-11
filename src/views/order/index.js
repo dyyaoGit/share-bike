@@ -6,7 +6,6 @@ const { RangePicker } = DatePicker;
 const FormItem = Form.Item
 const Option = Select.Option
 
-
 class FilterForm extends Component{
     constructor(props) {
         super(props)
