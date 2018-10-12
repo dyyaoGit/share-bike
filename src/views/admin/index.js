@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import {HashRouter, Route} from 'react-router-dom'
 import './index.scss'
 import {Row, Col} from 'antd'
 import NavLeft from '../../components/navLeft'
@@ -6,7 +7,6 @@ import Header from '../../components/header'
 import Footer from '../../components/footer'
 
 export default class Admin extends Component {
-
     componentDidMount() {
         console.log(this.props)
     }

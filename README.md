@@ -1833,7 +1833,7 @@ Offline-first Progressive Web Apps are faster and more reliable than traditional
 
 - All static site assets are cached so that your page loads fast on subsequent visits, regardless of network connectivity (such as 2G or 3G). Updates are downloaded in the background.
 - Your app will work regardless of network state, even if offline. This means your users will be able to use your app at 10,000 feet and on the subway.
-- On mobile devices, your app can be added directly to the user's home screen, app icon and all. This eliminates the need for the app store.
+- On mobile devices, your app can be added directly to the user's home screen, app icon and all. This eliminates the need for the app index.
 
 However, they [can make debugging deployments more challenging](https://github.com/facebook/create-react-app/issues/2398) so, starting with Create React App 2, service workers are opt-in.
 

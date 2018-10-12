@@ -16,6 +16,10 @@ import PieDemo from '../views/echarts/pie_demo'
 
 
 export default class Router extends Component {
+    componentDidMount() {
+        console.log(this.props.routes)
+    }
+
     render() {
         return (
             <HashRouter>

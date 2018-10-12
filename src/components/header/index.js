@@ -2,8 +2,9 @@ import React,{Component} from 'react'
 import './index.scss'
 import axios from 'axios'
 import utils from '../../utils'
+import {connect} from 'react-redux'
 
-export default class Header extends Component{
+class Header extends Component{
     state = {
         weather: '',
         time: ''
@@ -30,12 +31,13 @@ export default class Header extends Component{
     componentWillMount() {
         this.getWeather()
         this.getDate()
+        console.log(this.props)
     }
 
     render() {
         return (
-            <div className='header-wrap'>
-                <div className={this.props.type == 'common' ? 'common-header' : 'header'} >
+            <div className='header-wrap clearfix'>
+                <div className={this.props.type == 'common' ? 'common-header clearfix' : 'header clearfix'} >
                     <h2 className="title fll" style={{color: '#fff', marginLeft: '20px'}}>
                         共享单车后台系统
                     </h2>
@@ -47,19 +49,20 @@ export default class Header extends Component{
                     </div>
                 </div>
                 {
-                    this.props.type == 'common' ? '' :  <div className='header-detail clearfix'>
-                        <div className="breadcrumb-title fll">
-                            首页
+                    this.props.type == 'common' ? '' :
+                <div className='header-detail clearfix'>
+                    <div className="breadcrumb-title fll">
+                        {this.props.menuText.menuItemText}
+                    </div>
+                    <div className="weather flr clearfix">
+                        <div className="date fll">
+                            {this.state.time}
                         </div>
-                        <div className="weather flr clearfix">
-                            <div className="date fll">
-                                {this.state.time}
-                            </div>
-                            <div className="weather-detail fll">
-                                {this.state.weather}
-                            </div>
+                        <div className="weather-detail fll">
+                            {this.state.weather}
                         </div>
                     </div>
+                </div>
                 }
 
 
@@ -67,3 +70,22 @@ export default class Header extends Component{
         )
     }
 }
+
+// export default connect(
+//     state => (
+//         {
+//             menuItemText: state.menuItemText
+//         }
+//     )
+// )(Header)
+
+//connect 接受两个参数，一个参数叫做mapStateToProps, 另一个参数叫mapActionToProps,
+// 这两个参数都应该是一个函数
+
+export default connect(
+    function mapStateToProps(state){
+        return {
+            menuText: state
+        }
+    }
+)(Header)

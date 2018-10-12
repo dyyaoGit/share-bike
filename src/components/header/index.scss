@@ -14,6 +14,10 @@
     .logout {
       color: #409eff;
     }
+
+    .title {
+      margin-bottom: 0;
+    }
   }
 
   .common-header {
@@ -37,7 +41,7 @@
     height: 40px;
 
     .breadcrumb-title {
-      width: 12.5%;
+      width: 150px;
       text-align: center;
       position: relative;
       font-size: 18px;
